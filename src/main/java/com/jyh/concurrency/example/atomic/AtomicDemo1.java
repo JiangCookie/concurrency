@@ -1,20 +1,21 @@
-package com.jyh.concurrency.example;
+package com.jyh.concurrency.example.atomic;
 
-import com.jyh.concurrency.annoations.NotThreadSafe;
+import com.jyh.concurrency.annoations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author JYH
  * 2018/10/26 15:04
  */
 @Slf4j
-@NotThreadSafe
-public class CountDemo1 {
+@ThreadSafe
+public class AtomicDemo1 {
 
     // 请求总数
     public static int clientTotal = 5000;
@@ -22,7 +23,7 @@ public class CountDemo1 {
     // 同时并发执行的线程数
     public static int threadTotal = 100;
 
-    public static int count = 0;
+    public static AtomicInteger count = new AtomicInteger(0) ;
 
     public static void main(String[] args) throws Exception {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -46,6 +47,6 @@ public class CountDemo1 {
     }
 
     private static void add() {
-        count++;
+        count.getAndIncrement();
     }
 }
